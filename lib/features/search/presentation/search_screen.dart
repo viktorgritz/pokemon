@@ -43,13 +43,13 @@ class _SearchScreenState extends State<SearchScreen> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10),
               child: SearchBar(
-                leading: Icon(
+                leading: const Icon(
                   Icons.search,
                   color: Colors.grey,
                 ),
                 hintText: 'Search',
                 hintStyle: MaterialStateProperty.all(
-                  TextStyle(
+                  const TextStyle(
                     fontSize: 15,
                     color: Colors.grey,
                   ),
@@ -59,14 +59,13 @@ class _SearchScreenState extends State<SearchScreen> {
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                 ),
-                constraints: BoxConstraints(maxHeight: 40),
+                constraints: const BoxConstraints(maxHeight: 40),
                 backgroundColor:
                     MaterialStateProperty.all(Colors.grey.shade200),
                 elevation: MaterialStateProperty.all(0),
               ),
             ),
             PokemonCard(),
-            Text('List of Pokemons'),
           ],
         ),
       ),
