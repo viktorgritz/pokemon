@@ -160,6 +160,17 @@ components:
         order:
           type: integer
           format: int32
+        sprites:
+          type: object
+          properties:
+            other:
+              type: object
+              properties:
+                home:
+                  type: object
+                  properties:
+                    front_default:
+                      type: string
         abilities:
           type: array
           items:
@@ -200,6 +211,11 @@ components:
                 type: integer
               stat:
                 type: object
+                properties:
+                  name:
+                    type: string
+                  url:
+                    type: string
         types:
           type: array
           items:

@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **height** | **int** |  | [optional] 
 **isDefault** | **bool** |  | [optional] 
 **order** | **int** |  | [optional] 
+**sprites** | [**PokemonSprites**](PokemonSprites.md) |  | [optional] 
 **abilities** | [**List<PokemonAbilitiesInner>**](PokemonAbilitiesInner.md) |  | [optional] [default to const []]
 **moves** | [**List<PokemonMovesInner>**](PokemonMovesInner.md) |  | [optional] [default to const []]
 **stats** | [**List<PokemonStatsInner>**](PokemonStatsInner.md) |  | [optional] [default to const []]

@@ -1,10 +1,10 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:pokemon/constants/app_constants.dart';
+import 'package:pokemon/features/search/application/search_cubit.dart';
+import 'package:pokemon/features/search/application/search_state.dart';
 import 'package:pokemon/widgets/pokemon_card.dart';
 import 'package:pokemon_api/api.dart';
 
@@ -16,65 +16,117 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final pokemonApi = DefaultApi();
+  String userInput = '';
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: SvgPicture.asset(
-            ImageAssetsPath.pokemonImageAssetPath,
-            width: 80,
-          ),
-          backgroundColor: HexColor('#F5DB13'),
-          //title: Text('Pokemon'),
-        ),
-        body: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                SvgPicture.asset(
+      child: BlocProvider<SearchCubit>(
+        create: (context) => SearchCubit(),
+        child: BlocBuilder<SearchCubit, SearchState>(
+          builder: (context, state) {
+            return Scaffold(
+              appBar: AppBar(
+                title: SvgPicture.asset(
                   ImageAssetsPath.pokemonImageAssetPath,
                   width: 80,
                 ),
-                const Text(
-                  'Pokedex Flutter App',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
-                )
-              ],
-            ),
-            Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10),
-              child: SearchBar(
-                leading: const Icon(
-                  Icons.search,
-                  color: Colors.grey,
-                ),
-                hintText: 'Search',
-                hintStyle: MaterialStateProperty.all(
-                  const TextStyle(
-                    fontSize: 15,
-                    color: Colors.grey,
-                  ),
-                ),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
-                constraints: const BoxConstraints(maxHeight: 40),
-                backgroundColor:
-                    MaterialStateProperty.all(Colors.grey.shade200),
-                elevation: MaterialStateProperty.all(0),
+                backgroundColor: HexColor('#F5DB13'),
+                //title: Text('Pokemon'),
               ),
-            ),
-            const PokemonCard(),
-          ],
+              body: Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      SvgPicture.asset(
+                        ImageAssetsPath.pokemonImageAssetPath,
+                        width: 80,
+                      ),
+                      const Text(
+                        'Pokedex Flutter App',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.w700),
+                      )
+                    ],
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 18.0, vertical: 10),
+                    child: SearchBar(
+                      leading: IconButton(
+                        icon: Icon(Icons.search),
+                        color: Colors.grey,
+                        onPressed: () async {
+                          await context.readSearchCubit
+                              .getPokemonByName(userInput);
+                          print(userInput);
+                        },
+                      ),
+                      hintText: 'Search',
+                      hintStyle: MaterialStateProperty.all(
+                        const TextStyle(
+                          fontSize: 15,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                      ),
+                      constraints: const BoxConstraints(maxHeight: 40),
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.grey.shade200),
+                      elevation: MaterialStateProperty.all(0),
+                      onChanged: (item) {
+                        userInput = item;
+                      },
+                    ),
+                  ),
+                  state.maybeWhen(
+                    searchLoading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    searchLoaded: (items) {
+                      return ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: items.length,
+                          itemBuilder: (context, index) {
+                            final pokemon = items[index];
+                            return PokemonCard(
+                              name: pokemon.name ?? '',
+                              attack:
+                                  getValueForParameter(pokemon.stats, 'attack'),
+                              defense: getValueForParameter(
+                                  pokemon.stats, 'defense'),
+                              imageUrl: pokemon.sprites != null &&
+                                      pokemon.sprites!.other != null &&
+                                      pokemon.sprites!.other!.home != null
+                                  ? pokemon.sprites!.other!.home!.frontDefault!
+                                  : '',
+                              types: pokemon.types,
+                            );
+                          });
+                    },
+                    orElse: () => const Center(
+                      child: Text('is Empty'),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
+  }
+
+  int getValueForParameter(List<PokemonStatsInner> stats, String parameter) {
+    if (stats == null || stats.isEmpty) return 0;
+    final result = stats.firstWhere(
+        (element) => element.stat != null && element.stat!.name == parameter);
+    return result.baseStat != null ? result.baseStat! : 0;
   }
 }

@@ -31,7 +31,7 @@ class PokemonTypesInner {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  PokemonTypesInnerType? type;
+  PokemonStatsInnerStat? type;
 
   @override
   bool operator ==(Object other) =>
@@ -83,7 +83,7 @@ class PokemonTypesInner {
 
       return PokemonTypesInner(
         slot: mapValueOfType<int>(json, r'slot'),
-        type: PokemonTypesInnerType.fromJson(json[r'type']),
+        type: PokemonStatsInnerStat.fromJson(json[r'type']),
       );
     }
     return null;

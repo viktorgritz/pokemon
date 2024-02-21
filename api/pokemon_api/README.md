@@ -71,9 +71,12 @@ Class | Method | HTTP request | Description
  - [PokemonAbilitiesInner](doc//PokemonAbilitiesInner.md)
  - [PokemonMovesInner](doc//PokemonMovesInner.md)
  - [PokemonMovesInnerVersionGroupDetailsInner](doc//PokemonMovesInnerVersionGroupDetailsInner.md)
+ - [PokemonSprites](doc//PokemonSprites.md)
+ - [PokemonSpritesOther](doc//PokemonSpritesOther.md)
+ - [PokemonSpritesOtherHome](doc//PokemonSpritesOtherHome.md)
  - [PokemonStatsInner](doc//PokemonStatsInner.md)
+ - [PokemonStatsInnerStat](doc//PokemonStatsInnerStat.md)
  - [PokemonTypesInner](doc//PokemonTypesInner.md)
- - [PokemonTypesInnerType](doc//PokemonTypesInnerType.md)
  - [Region](doc//Region.md)
 
 

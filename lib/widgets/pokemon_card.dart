@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:pokemon_api/api.dart';
 
 class PokemonCard extends StatelessWidget {
-  const PokemonCard({super.key});
+  final String name;
+  final int attack;
+  final int defense;
+  final String imageUrl;
+  final List<PokemonTypesInner> types;
+  const PokemonCard({
+    super.key,
+    required this.name,
+    required this.attack,
+    required this.defense,
+    required this.imageUrl,
+    required this.types,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +42,14 @@ class PokemonCard extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      const Padding(
-                        padding: EdgeInsets.only(top: 8.0),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          'Pokemon 1',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w600),
+                          name,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -43,8 +58,8 @@ class PokemonCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          buildParameterWithText('419', 'attack'),
-                          buildParameterWithText('49', 'defence'),
+                          buildParameterWithText('$attack', 'attack'),
+                          buildParameterWithText('$defense', 'defence'),
                         ],
                       ),
                       const SizedBox(
@@ -56,7 +71,7 @@ class PokemonCard extends StatelessWidget {
                 Expanded(
                   child: Center(
                     child: Image.network(
-                      'https://assets.pokemon.com/assets/cms2/img/pokedex/full/921.png',
+                      imageUrl,
                       width: 150,
                     ),
                   ),
@@ -67,10 +82,8 @@ class PokemonCard extends StatelessWidget {
               bottom: 10,
               left: 15,
               child: Row(
-                children: [
-                  typesItem(HexColor('#73D677'), 'Grass'),
-                  typesItem(HexColor('#07D6F2'), 'Poison'),
-                ],
+                //children: typesItem(HexColor('#73D677'), 'Grass'),
+                children: typesItem(types),
               ),
             )
           ],
@@ -79,24 +92,34 @@ class PokemonCard extends StatelessWidget {
     );
   }
 
-  Widget typesItem(Color? color, String title) {
-    return Card(
-      elevation: 3,
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 12,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(35)),
-          color: color ?? Colors.grey,
-        ),
-        child: Center(
-            child: Text(
-          title,
-          style: TextStyle(fontSize: 12),
-        )),
-      ),
-    );
+  List<Widget> typesItem(
+    List<PokemonTypesInner> types,
+  ) {
+    var list = <Widget>[];
+    for (final type in types) {
+      if (type.type != null &&
+          type.type!.name != null &&
+          !type.type!.name!.contains('http')) {
+        list.add(Card(
+          elevation: 3,
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12,
+            ),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(35)),
+              color: Colors.grey,
+            ),
+            child: Center(
+                child: Text(
+              type.type!.name!,
+              style: const TextStyle(fontSize: 12),
+            )),
+          ),
+        ));
+      }
+    }
+    return list;
   }
 
   Column buildParameterWithText(String number, String description) {

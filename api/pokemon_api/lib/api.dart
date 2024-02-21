@@ -35,9 +35,12 @@ part 'model/machine.dart';
 part 'model/pokemon_abilities_inner.dart';
 part 'model/pokemon_moves_inner.dart';
 part 'model/pokemon_moves_inner_version_group_details_inner.dart';
+part 'model/pokemon_sprites.dart';
+part 'model/pokemon_sprites_other.dart';
+part 'model/pokemon_sprites_other_home.dart';
 part 'model/pokemon_stats_inner.dart';
+part 'model/pokemon_stats_inner_stat.dart';
 part 'model/pokemon_types_inner.dart';
-part 'model/pokemon_types_inner_type.dart';
 part 'model/region.dart';
 
 /// An [ApiClient] instance that uses the default values obtained from

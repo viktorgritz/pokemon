@@ -239,12 +239,18 @@ class ApiClient {
           return PokemonMovesInner.fromJson(value);
         case 'PokemonMovesInnerVersionGroupDetailsInner':
           return PokemonMovesInnerVersionGroupDetailsInner.fromJson(value);
+        case 'PokemonSprites':
+          return PokemonSprites.fromJson(value);
+        case 'PokemonSpritesOther':
+          return PokemonSpritesOther.fromJson(value);
+        case 'PokemonSpritesOtherHome':
+          return PokemonSpritesOtherHome.fromJson(value);
         case 'PokemonStatsInner':
           return PokemonStatsInner.fromJson(value);
+        case 'PokemonStatsInnerStat':
+          return PokemonStatsInnerStat.fromJson(value);
         case 'PokemonTypesInner':
           return PokemonTypesInner.fromJson(value);
-        case 'PokemonTypesInnerType':
-          return PokemonTypesInnerType.fromJson(value);
         case 'Region':
           return Region.fromJson(value);
         default:

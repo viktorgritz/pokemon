@@ -19,6 +19,7 @@ class ExamplePokemon {
     this.height,
     this.isDefault,
     this.order,
+    this.sprites,
     this.abilities = const [],
     this.moves = const [],
     this.stats = const [],
@@ -73,6 +74,14 @@ class ExamplePokemon {
   ///
   int? order;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  PokemonSprites? sprites;
+
   List<PokemonAbilitiesInner> abilities;
 
   List<PokemonMovesInner> moves;
@@ -91,6 +100,7 @@ class ExamplePokemon {
           other.height == height &&
           other.isDefault == isDefault &&
           other.order == order &&
+          other.sprites == sprites &&
           _deepEquality.equals(other.abilities, abilities) &&
           _deepEquality.equals(other.moves, moves) &&
           _deepEquality.equals(other.stats, stats) &&
@@ -105,6 +115,7 @@ class ExamplePokemon {
       (height == null ? 0 : height!.hashCode) +
       (isDefault == null ? 0 : isDefault!.hashCode) +
       (order == null ? 0 : order!.hashCode) +
+      (sprites == null ? 0 : sprites!.hashCode) +
       (abilities.hashCode) +
       (moves.hashCode) +
       (stats.hashCode) +
@@ -112,7 +123,7 @@ class ExamplePokemon {
 
   @override
   String toString() =>
-      'ExamplePokemon[id=$id, name=$name, baseExperience=$baseExperience, height=$height, isDefault=$isDefault, order=$order, abilities=$abilities, moves=$moves, stats=$stats, types=$types]';
+      'ExamplePokemon[id=$id, name=$name, baseExperience=$baseExperience, height=$height, isDefault=$isDefault, order=$order, sprites=$sprites, abilities=$abilities, moves=$moves, stats=$stats, types=$types]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -145,6 +156,11 @@ class ExamplePokemon {
       json[r'order'] = this.order;
     } else {
       json[r'order'] = null;
+    }
+    if (this.sprites != null) {
+      json[r'sprites'] = this.sprites;
+    } else {
+      json[r'sprites'] = null;
     }
     json[r'abilities'] = this.abilities;
     json[r'moves'] = this.moves;
@@ -180,6 +196,7 @@ class ExamplePokemon {
         height: mapValueOfType<int>(json, r'height'),
         isDefault: mapValueOfType<bool>(json, r'is_default'),
         order: mapValueOfType<int>(json, r'order'),
+        sprites: PokemonSprites.fromJson(json[r'sprites']),
         abilities: PokemonAbilitiesInner.listFromJson(json[r'abilities']),
         moves: PokemonMovesInner.listFromJson(json[r'moves']),
         stats: PokemonStatsInner.listFromJson(json[r'stats']),

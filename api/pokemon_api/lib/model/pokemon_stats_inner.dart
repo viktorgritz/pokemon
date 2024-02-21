@@ -40,7 +40,7 @@ class PokemonStatsInner {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  Object? stat;
+  PokemonStatsInnerStat? stat;
 
   @override
   bool operator ==(Object other) =>
@@ -104,7 +104,7 @@ class PokemonStatsInner {
       return PokemonStatsInner(
         baseStat: mapValueOfType<int>(json, r'base_stat'),
         effort: mapValueOfType<int>(json, r'effort'),
-        stat: mapValueOfType<Object>(json, r'stat'),
+        stat: PokemonStatsInnerStat.fromJson(json[r'stat']),
       );
     }
     return null;

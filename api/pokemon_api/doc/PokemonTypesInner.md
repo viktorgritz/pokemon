@@ -9,7 +9,7 @@ import 'package:pokemon_api/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **slot** | **int** |  | [optional] 
-**type** | [**PokemonTypesInnerType**](PokemonTypesInnerType.md) |  | [optional] 
+**type** | [**PokemonStatsInnerStat**](PokemonStatsInnerStat.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
