@@ -1,8 +1,12 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:pokemon/constants/app_constants.dart';
 import 'package:pokemon/widgets/pokemon_card.dart';
+import 'package:pokemon_api/api.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -12,6 +16,8 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  final pokemonApi = DefaultApi();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -65,7 +71,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 elevation: MaterialStateProperty.all(0),
               ),
             ),
-            PokemonCard(),
+            const PokemonCard(),
           ],
         ),
       ),
