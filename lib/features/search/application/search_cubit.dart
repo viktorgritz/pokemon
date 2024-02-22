@@ -11,7 +11,8 @@ class SearchCubit extends Cubit<SearchState> {
   final pokemonApi = DefaultApi();
   SearchCubit() : super(const SearchInitial());
 
-  Future<void> getPokemonByName(String name) async {
+  Future<void> getPokemon(String name) async {
+    if (name.isEmpty) return;
     emit(const SearchInitial());
     try {
       emit(const SearchLoading());

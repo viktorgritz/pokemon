@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:pokemon/extensions/string_extension.dart';
 import 'package:pokemon_api/api.dart';
+import 'dart:math' as math;
 
 class PokemonCard extends StatelessWidget {
   final String name;
@@ -21,10 +22,10 @@ class PokemonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final containerWidth = MediaQuery.of(context).size.width / 3;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Card(
         elevation: 4,
-        color: Colors.amberAccent,
+        color: getBackgroundColor(),
         child: Stack(
           children: [
             Row(
@@ -45,7 +46,7 @@ class PokemonCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          name,
+                          name.capitalize(),
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -58,8 +59,8 @@ class PokemonCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          buildParameterWithText('$attack', 'attack'),
-                          buildParameterWithText('$defense', 'defence'),
+                          buildCircleParameterWithText('$attack', 'attack'),
+                          buildCircleParameterWithText('$defense', 'defence'),
                         ],
                       ),
                       const SizedBox(
@@ -82,8 +83,7 @@ class PokemonCard extends StatelessWidget {
               bottom: 10,
               left: 15,
               child: Row(
-                //children: typesItem(HexColor('#73D677'), 'Grass'),
-                children: typesItem(types),
+                children: getTypes(types),
               ),
             )
           ],
@@ -92,7 +92,8 @@ class PokemonCard extends StatelessWidget {
     );
   }
 
-  List<Widget> typesItem(
+  //TODO find out how to set color for type
+  List<Widget> getTypes(
     List<PokemonTypesInner> types,
   ) {
     var list = <Widget>[];
@@ -122,7 +123,10 @@ class PokemonCard extends StatelessWidget {
     return list;
   }
 
-  Column buildParameterWithText(String number, String description) {
+  Column buildCircleParameterWithText(
+    String number,
+    String description,
+  ) {
     return Column(
       children: <Widget>[
         CircleAvatar(
@@ -133,12 +137,17 @@ class PokemonCard extends StatelessWidget {
             backgroundColor: Colors.white,
             child: Text(
               number,
-              style: TextStyle(fontSize: 14),
+              style: const TextStyle(fontSize: 14),
             ),
           ),
         ),
         Text(description)
       ],
     );
+  }
+
+  Color getBackgroundColor() {
+    return Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+        .withOpacity(1.0);
   }
 }
