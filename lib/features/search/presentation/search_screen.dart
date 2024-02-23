@@ -16,8 +16,6 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  String userInput = '';
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -58,37 +56,29 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.only(
-                        bottom: 10.0,
-                      ),
-                      child: SearchBar(
-                        leading: IconButton(
-                          icon: const Icon(Icons.search),
-                          color: Colors.grey,
-                          padding: EdgeInsets.zero,
-                          onPressed: () async {
-                            await context.readSearchCubit.getPokemon(userInput);
-                          },
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(12),
                         ),
-                        hintText: 'Search',
-                        hintStyle: MaterialStateProperty.all(
-                          const TextStyle(
-                            fontSize: 15,
+                        color: Colors.grey[200],
+                      ),
+                      child: TextField(
+                        onSubmitted: (input) async {
+                          await context.readSearchCubit.getPokemon(input);
+                        },
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.all(2.0),
+                          constraints: BoxConstraints(maxHeight: 40),
+                          hintText: 'Search',
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                          ),
+                          prefixIcon: Icon(
+                            Icons.search,
                             color: Colors.grey,
                           ),
                         ),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                        ),
-                        constraints: const BoxConstraints(maxHeight: 40),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.grey.shade200),
-                        elevation: MaterialStateProperty.all(0),
-                        onChanged: (item) {
-                          userInput = item;
-                        },
                       ),
                     ),
                     state.maybeWhen(
