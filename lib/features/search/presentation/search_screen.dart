@@ -65,6 +65,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         leading: IconButton(
                           icon: const Icon(Icons.search),
                           color: Colors.grey,
+                          padding: EdgeInsets.zero,
                           onPressed: () async {
                             await context.readSearchCubit.getPokemon(userInput);
                           },

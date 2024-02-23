@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon/extensions/string_extension.dart';
 import 'package:pokemon_api/api.dart';
-import 'dart:math' as math;
 
 class PokemonCard extends StatelessWidget {
   final String name;
@@ -25,7 +24,7 @@ class PokemonCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Card(
         elevation: 4,
-        color: getBackgroundColor(),
+        color: getColor(types.first),
         child: Stack(
           children: [
             Row(
@@ -92,7 +91,6 @@ class PokemonCard extends StatelessWidget {
     );
   }
 
-  //TODO find out how to set color for type
   List<Widget> getTypes(
     List<PokemonTypesInner> types,
   ) {
@@ -101,23 +99,26 @@ class PokemonCard extends StatelessWidget {
       if (type.type != null &&
           type.type!.name != null &&
           !type.type!.name!.contains('http')) {
-        list.add(Card(
-          elevation: 3,
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 12,
-            ),
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(35)),
-              color: Colors.grey,
-            ),
-            child: Center(
+        list.add(
+          Card(
+            elevation: 3,
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(35)),
+                color: getColor(type),
+              ),
+              child: Center(
                 child: Text(
-              type.type!.name!,
-              style: const TextStyle(fontSize: 12),
-            )),
+                  type.type!.name!,
+                  style: const TextStyle(fontSize: 12),
+                ),
+              ),
+            ),
           ),
-        ));
+        );
       }
     }
     return list;
@@ -146,8 +147,11 @@ class PokemonCard extends StatelessWidget {
     );
   }
 
-  Color getBackgroundColor() {
-    return Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-        .withOpacity(1.0);
+  Color getColor(PokemonTypesInner? type) {
+    if (type != null && type.type != null && type.type!.name != null) {
+      return type.type!.name!.getTypeColor();
+    } else {
+      return Colors.grey;
+    }
   }
 }
